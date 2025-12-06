@@ -3,6 +3,7 @@ package service_impl
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/jalilnawawi/marketplace-app/exception"
 	"github.com/jalilnawawi/marketplace-app/helper"
@@ -59,6 +60,7 @@ func (service *SellerServiceImpl) Create(ctx context.Context, req seller_dto.Cre
 	}
 
 	seller = service.SellerRepository.Create(ctx, db, seller)
+	fmt.Println("seller created with id:", seller.Id)
 
 	return seller_dto.ToSellerResponse(seller)
 }

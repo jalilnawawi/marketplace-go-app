@@ -1,5 +1,11 @@
 package main
 
+// @title		Marketplace API
+// @version		1.0
+// @description	Simple CRUD API using Golang
+// @host		localhost:8181
+// @Basepath	/api
+
 import (
 	"log"
 	"net/http"

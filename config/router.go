@@ -11,9 +11,9 @@ func NewRouter(sellerController controller.SellerController) *httprouter.Router 
 
 	router.POST("/api/seller", sellerController.Create)
 	router.GET("/api/seller", sellerController.GetAll)
-	router.GET("/api/seller/:id", sellerController.GetById)
-	router.PUT("/api/seller/:id", sellerController.Update)
-	router.DELETE("/api/seller/:id", sellerController.Delete)
+	router.GET("/api/seller/:sellerId", sellerController.GetById)
+	router.PUT("/api/seller/:sellerId", sellerController.Update)
+	router.DELETE("/api/seller/:sellerId", sellerController.Delete)
 
 	router.PanicHandler = exception.ErrorHandler
 
