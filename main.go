@@ -4,7 +4,6 @@ package main
 // @version		1.0
 // @description	Simple CRUD API using Golang
 // @host		localhost:8181
-// @Basepath	/api
 
 import (
 	"log"
@@ -33,7 +32,12 @@ func main() {
 	sellerRepository := repository_impl.NewSellerRepository()
 	sellerService := service_impl.NewSellerService(sellerRepository, db)
 	sellerController := controller_impl.NewSellerController(sellerService)
-	router := config.NewRouter(sellerController)
+
+	productRepository := repository_impl.NewProductRepository()
+	productService := service_impl.NewProductServiceImpl(productRepository, sellerRepository, db)
+	productController := controller_impl.NewProductController(productService)
+
+	router := config.NewRouter(sellerController, productController)
 
 	server := http.Server{
 		Addr:    cfg.HTTPPort,

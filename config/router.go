@@ -7,7 +7,10 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-func NewRouter(sellerController controller.SellerController) *httprouter.Router {
+func NewRouter(
+	sellerController controller.SellerController,
+	productController controller.ProductController,
+) *httprouter.Router {
 
 	router := httprouter.New()
 
@@ -19,6 +22,12 @@ func NewRouter(sellerController controller.SellerController) *httprouter.Router 
 	router.GET("/api/seller/:sellerId", sellerController.GetById)
 	router.PUT("/api/seller/:sellerId", sellerController.Update)
 	router.DELETE("/api/seller/:sellerId", sellerController.Delete)
+
+	router.POST("/api/product", productController.Create)
+	router.GET("/api/product", productController.GetAll)
+	router.GET("/api/product/:productId", productController.GetById)
+	router.PUT("/api/product/:productId", productController.Update)
+	router.DELETE("/api/product/:productId", productController.Delete)
 
 	router.PanicHandler = exception.ErrorHandler
 

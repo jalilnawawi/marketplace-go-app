@@ -1,0 +1,352 @@
+definitions:
+  product_dto.CreateProductRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+      sellerId:
+        type: integer
+    type: object
+  product_dto.UpdateProductRequest:
+    properties:
+      category:
+        type: string
+      description:
+        minLength: 10
+        type: string
+      name:
+        maxLength: 100
+        minLength: 3
+        type: string
+      price:
+        minimum: 1
+        type: integer
+    required:
+    - category
+    - description
+    - name
+    - price
+    type: object
+  seller_dto.CreateSellerRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+host: localhost:8181
+info:
+  contact: {}
+  description: Simple CRUD API using Golang
+  title: Marketplace API
+  version: "1.0"
+paths:
+  /api/product:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all products
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Create a new product with name, price, and description
+      parameters:
+      - description: Create Product Request
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/product_dto.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new product
+      tags:
+      - products
+  /api/product/{productId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a product
+      tags:
+      - products
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get product by ID
+      tags:
+      - products
+    put:
+      consumes:
+      - application/json
+      description: Update a product's information by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Update Product Request
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/product_dto.UpdateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a product
+      tags:
+      - products
+  /api/seller:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all sellers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all sellers
+      tags:
+      - sellers
+    post:
+      consumes:
+      - application/json
+      description: Create a new seller with name, category, and description
+      parameters:
+      - description: Create Seller Request
+        in: body
+        name: seller
+        required: true
+        schema:
+          $ref: '#/definitions/seller_dto.CreateSellerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new seller
+      tags:
+      - sellers
+  /api/seller/{sellerId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a seller by its ID
+      parameters:
+      - description: Seller ID
+        in: path
+        name: sellerId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a seller
+      tags:
+      - sellers
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a seller by its ID
+      parameters:
+      - description: Seller ID
+        in: path
+        name: sellerId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get seller by ID
+      tags:
+      - sellers
+    put:
+      consumes:
+      - application/json
+      description: Update a seller's information by its ID
+      parameters:
+      - description: Seller ID
+        in: path
+        name: sellerId
+        required: true
+        type: integer
+      - description: Update Seller Request
+        in: body
+        name: seller
+        required: true
+        schema:
+          $ref: '#/definitions/seller_dto.CreateSellerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a seller
+      tags:
+      - sellers
+swagger: "2.0"
