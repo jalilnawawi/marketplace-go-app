@@ -16,6 +16,8 @@ import (
 	"github.com/jalilnawawi/marketplace-app/repository/repository_impl"
 	"github.com/jalilnawawi/marketplace-app/service/service_impl"
 	"github.com/joho/godotenv"
+
+	_ "github.com/jalilnawawi/marketplace-app/docs"
 )
 
 func main() {
@@ -38,6 +40,7 @@ func main() {
 		Handler: router,
 	}
 	log.Printf("🚀 Server starting on http://localhost%s", server.Addr)
+	log.Printf("🚀 Swagger UI available on http://localhost%s/swagger/index.html", server.Addr)
 
 	err := server.ListenAndServe()
 	helper.PanicIfError(err)
