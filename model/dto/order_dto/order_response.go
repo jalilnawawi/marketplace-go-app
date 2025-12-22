@@ -4,9 +4,9 @@ import "github.com/jalilnawawi/marketplace-app/model/domain"
 
 type OrderResponse struct {
 	ID         int64 `json:"id"`
-	ProductId  int64 `json:"product_id"`
+	ProductId  int64 `json:"productId"`
 	Quantity   int   `json:"quantity"`
-	TotalPrice int   `json:"total_price"`
+	TotalPrice int   `json:"totalPrice"`
 }
 
 func ToOrderResponse(order domain.Orders) OrderResponse {

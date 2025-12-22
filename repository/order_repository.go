@@ -9,8 +9,8 @@ import (
 
 type OrderRepository interface {
 	FindAll(ctx context.Context, db *sql.Tx) ([]domain.Orders, error)
-	FindById(ctx context.Context, db *sql.Tx, id int) (domain.Orders, error)
-	Create(ctx context.Context, db *sql.Tx, order domain.Orders, product domain.Product) (domain.Orders, error)
+	FindById(ctx context.Context, db *sql.Tx, id int64) (domain.Orders, error)
+	Create(ctx context.Context, db *sql.Tx, order domain.Orders, product domain.Product, seller domain.Seller) (domain.Orders, error)
 	Update(ctx context.Context, db *sql.Tx, order domain.Orders) (domain.Orders, error)
-	Delete(ctx context.Context, db *sql.Tx, id int)
+	Delete(ctx context.Context, db *sql.Tx, id int64)
 }

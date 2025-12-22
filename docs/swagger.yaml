@@ -1,4 +1,20 @@
 definitions:
+  order_dto.CreateOrderRequest:
+    properties:
+      productId:
+        type: integer
+      quantity:
+        type: integer
+      sellerId:
+        type: integer
+    type: object
+  order_dto.UpdateOrderRequest:
+    properties:
+      productId:
+        type: integer
+      quantity:
+        type: integer
+    type: object
   product_dto.CreateProductRequest:
     properties:
       category:
@@ -48,6 +64,154 @@ info:
   title: Marketplace API
   version: "1.0"
 paths:
+  /api/order:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all orders
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all orders
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Create a new order with name, price, and description
+      parameters:
+      - description: Create Order Request
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/order_dto.CreateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new order
+      tags:
+      - orders
+  /api/order/{orderId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a order by its ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a order
+      tags:
+      - orders
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a order by its ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get order by ID
+      tags:
+      - orders
+    put:
+      consumes:
+      - application/json
+      description: Update a order's information by its ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      - description: Update Order Request
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/order_dto.UpdateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a order
+      tags:
+      - orders
   /api/product:
     get:
       consumes:

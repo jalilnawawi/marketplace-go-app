@@ -4,8 +4,9 @@ import "time"
 
 type Orders struct {
 	ID         int64     `db:"id" json:"id"`
-	ProductId  int64     `db:"product_id" json:"product_id"`
+	SellerID   int64     `db:"seller_id" json:"sellerId"`
+	ProductId  int64     `db:"product_id" json:"productId"`
 	Quantity   int       `db:"quantity" json:"quantity"`
-	TotalPrice int       `db:"total_price" json:"total_price"`
-	CreatedAt  time.Time `db:"created_at" json:"created_at"`
+	TotalPrice int       `db:"total_price" json:"totalPrice"`
+	CreatedAt  time.Time `db:"created_at" json:"createdAt"`
 }

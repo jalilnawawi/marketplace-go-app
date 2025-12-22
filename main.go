@@ -37,7 +37,11 @@ func main() {
 	productService := service_impl.NewProductServiceImpl(productRepository, sellerRepository, db)
 	productController := controller_impl.NewProductController(productService)
 
-	router := config.NewRouter(sellerController, productController)
+	orderRepository := repository_impl.NewOrderRepository()
+	orderService := service_impl.NewOrderService(orderRepository, productRepository, sellerRepository, db)
+	orderController := controller_impl.NewOrderController(orderService)
+
+	router := config.NewRouter(sellerController, productController, orderController)
 
 	server := http.Server{
 		Addr:    cfg.HTTPPort,

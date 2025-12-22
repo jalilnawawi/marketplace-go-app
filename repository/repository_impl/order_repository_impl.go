@@ -16,7 +16,7 @@ func NewOrderRepository() repository.OrderRepository {
 }
 
 func (o OrderRepositoryImpl) FindAll(ctx context.Context, db *sql.Tx) ([]domain.Orders, error) {
-	SQL := "select * from marketplace.orders"
+	SQL := "select o.id, o.product_id, o.quantity, o.total_price, o.created_at from marketplace.orders o"
 	rows, err := db.QueryContext(ctx, SQL)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -32,8 +32,8 @@ func (o OrderRepositoryImpl) FindAll(ctx context.Context, db *sql.Tx) ([]domain.
 	return orders, err
 }
 
-func (o OrderRepositoryImpl) FindById(ctx context.Context, db *sql.Tx, id int) (domain.Orders, error) {
-	SQL := "select * from marketplace.orders where id=$1"
+func (o OrderRepositoryImpl) FindById(ctx context.Context, db *sql.Tx, id int64) (domain.Orders, error) {
+	SQL := "select o.id, o.product_id, o.quantity, o.total_price, o.created_at from marketplace.orders o where o.id=$1"
 	result, err := db.QueryContext(ctx, SQL, id)
 	helper.PanicIfError(err)
 	defer result.Close()
@@ -48,15 +48,15 @@ func (o OrderRepositoryImpl) FindById(ctx context.Context, db *sql.Tx, id int) (
 	}
 }
 
-func (o OrderRepositoryImpl) Create(ctx context.Context, db *sql.Tx, order domain.Orders, product domain.Product) (domain.Orders, error) {
+func (o OrderRepositoryImpl) Create(ctx context.Context, db *sql.Tx, order domain.Orders, product domain.Product, seller domain.Seller) (domain.Orders, error) {
 	SQL := `
-			insert into marketplace.orders (product_id, quantity)
-			values ($1, $2)
+			insert into marketplace.orders (seller_id, product_id, quantity, total_price)
+			values ($1, $2, $3, $4)
 			RETURNING id
 		   `
 
 	var id int
-	err := db.QueryRowContext(ctx, SQL, order.ProductId, order.Quantity).Scan(&id)
+	err := db.QueryRowContext(ctx, SQL, order.SellerID, order.ProductId, order.Quantity, order.TotalPrice).Scan(&id)
 	helper.PanicIfError(err)
 
 	if err != nil {
@@ -79,7 +79,11 @@ func (o OrderRepositoryImpl) Update(ctx context.Context, db *sql.Tx, order domai
 	return order, err
 }
 
-func (o OrderRepositoryImpl) Delete(ctx context.Context, db *sql.Tx, id int) {
-	//TODO implement me
-	panic("implement me")
+func (o OrderRepositoryImpl) Delete(ctx context.Context, db *sql.Tx, id int64) {
+	SQL := `
+			delete from marketplace.orders
+			where id=$1
+			`
+	_, err := db.ExecContext(ctx, SQL, id)
+	helper.PanicIfError(err)
 }

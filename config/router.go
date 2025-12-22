@@ -10,6 +10,7 @@ import (
 func NewRouter(
 	sellerController controller.SellerController,
 	productController controller.ProductController,
+	orderController controller.OrderController,
 ) *httprouter.Router {
 
 	router := httprouter.New()
@@ -28,6 +29,12 @@ func NewRouter(
 	router.GET("/api/product/:productId", productController.GetById)
 	router.PUT("/api/product/:productId", productController.Update)
 	router.DELETE("/api/product/:productId", productController.Delete)
+
+	router.POST("/api/order", orderController.Create)
+	router.GET("/api/order", orderController.GetAll)
+	router.GET("/api/order/:orderId", orderController.GetById)
+	router.PUT("/api/order/:orderId", orderController.Update)
+	router.DELETE("/api/order/:orderId", orderController.Delete)
 
 	router.PanicHandler = exception.ErrorHandler
 
